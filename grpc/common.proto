@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+
+package grpc;
+option go_package = "github.com/LukmanulHakim18/core/grpc";
+
+message Page {
+  int32 last_id_int = 1;
+  string last_id_str = 2;
+  int32 limit = 3;
+}
+
+message Error {
+  int32 code = 1;
+  string message = 2;
+}
