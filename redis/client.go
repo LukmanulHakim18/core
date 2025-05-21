@@ -61,14 +61,14 @@ func (r *ClientRedis) ListenKey(ctx context.Context, db, key string) *redis.PubS
 	if db == "" {
 		db = "*"
 	}
-	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyspace%s__:%s", db, key))
+	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyspace@%s__:%s", db, key))
 }
 
 func (r *ClientRedis) ListenEvent(ctx context.Context, db, event string) *redis.PubSub {
 	if db == "" {
 		db = "*"
 	}
-	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyevent%s__:%s", db, event))
+	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyevent@%s__:%s", db, event))
 }
 
 // make pattern key like this CONTEXT_PROCESS:LOCK:DATA_KEY
