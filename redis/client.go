@@ -55,25 +55,20 @@ func (r *ClientRedis) SetConfigKEA() error {
 	return r.client.Do(context.Background(), "CONFIG", "SET", "notify-keyspace-events", "KEA").Err()
 }
 
-// deprecated
-func (r *ClientRedis) ListenEventHappenOnKey(ctx context.Context, key string) *redis.PubSub {
-	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyspace*:%s", key))
-}
-
 // listening key and returning event.
 // if db not set it wil listen to all database in redis
 func (r *ClientRedis) ListenKey(ctx context.Context, db, key string) *redis.PubSub {
 	if db == "" {
 		db = "*"
 	}
-	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyspace%s:%s", db, key))
+	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyspace%s__:%s", db, key))
 }
 
 func (r *ClientRedis) ListenEvent(ctx context.Context, db, event string) *redis.PubSub {
 	if db == "" {
 		db = "*"
 	}
-	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyevent%s:%s", db, event))
+	return r.client.PSubscribe(ctx, fmt.Sprintf("__keyevent%s__:%s", db, event))
 }
 
 // make pattern key like this CONTEXT_PROCESS:LOCK:DATA_KEY
